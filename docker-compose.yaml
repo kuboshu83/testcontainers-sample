@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:18.3
+    container_name: db
+    tmpfs:
+      - /var/lib/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+    networks:
+      - test-nw
+networks:
+  test-nw:

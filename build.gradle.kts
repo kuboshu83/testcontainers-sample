@@ -24,11 +24,14 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1")
 	implementation("tools.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-flyway")
+    implementation("org.flywaydb:flyway-database-postgresql")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:4.0.1")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
 }
 
 kotlin {

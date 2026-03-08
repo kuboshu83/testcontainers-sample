@@ -3,10 +3,13 @@ package com.example.test_sample.infrastructure
 import com.example.test_sample.domain.User
 import com.example.test_sample.domain.UserRepository
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
+import org.springframework.test.context.jdbc.Sql
+import org.springframework.transaction.annotation.Transactional
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.postgresql.PostgreSQLContainer
@@ -37,11 +40,19 @@ class UserRepositoryImplTest() {
     }
 
     @Test
-    fun sampleTest() {
-        val user = User("akira_id", "akira", "akira@example.com")
-        repo.save(user)
+    @Transactional
+    @Sql("/sql/insert_user.sql")
+    fun findByIdTest() {
         val get = repo.findById("akira_id")
         val expected = User("akira_id", "akira", "akira@example.com")
         assertEquals(expected, get)
+    }
+
+    @Test
+    @Transactional
+    @Sql("/sql/insert_user.sql")
+    fun deleteByIdTest2() {
+        repo.deleteById("akira_id")
+        assertNull(repo.findById("akira_id"))
     }
 }

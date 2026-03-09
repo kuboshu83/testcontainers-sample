@@ -4,7 +4,9 @@ import com.example.test_sample.domain.Product
 import com.example.test_sample.domain.ProductRepository
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
+import org.springframework.stereotype.Repository
 
+@Repository
 class ProductRepository(
     private val productDao: ProductDao
 ) : ProductRepository {

@@ -102,7 +102,7 @@ class ProductMyBatisConfig {
         factory.setDataSource(dataSource)
         factory.setMapperLocations(
             *PathMatchingResourcePatternResolver()
-                .getResources("classpath:/mapper/user/*.xml")
+                .getResources("classpath:/mapper/product/*.xml")
         )
         return factory.`object`!!
     }

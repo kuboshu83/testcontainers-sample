@@ -2,17 +2,32 @@ spring:
   application:
     name: test-sample
   datasource:
-    url: jdbc:postgresql://localhost:5432/db
-    username: postgres
-    password: postgres
-    driverClassName: org.postgresql.Driver
+    user:
+      jdbcUrl: jdbc:postgresql://localhost:5432/users
+      username: postgres
+      password: postgres
+      driverClassName: org.postgresql.Driver
+    product:
+      jdbcUrl: jdbc:postgresql://localhost:5432/product
+      username: postgres
+      password: postgres
+      driverClassName: org.postgresql.Driver
   flyway:
-    enabled=true
-    locations=classpath:/db/migration
-    baseline-on-migrate=true
-    validate-on-migrate=true
-    out-of-order=false
-    table=flyway_schema_history
+    user:
+      enabled: true
+      locations: classpath:/user/migration
+      baseline-on-migrate: true
+      validate-on-migrate: true
+      out-of-order: false
+      table: flyway_schema_history
+    product:
+      enabled: true
+      locations: classpath:/product/migration
+      baseline-on-migrate: true
+      validate-on-migrate: true
+      out-of-order: false
+      table: flyway_schema_history
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
+

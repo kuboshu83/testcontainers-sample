@@ -1,6 +1,9 @@
 services:
   db:
-    image: postgres:18.3
+    build:
+      context: ./container
+      dockerfile: Dockerfile
+    image: com.example.k83/test-sample-db:0.1.0
     container_name: db
     tmpfs:
       - /var/lib/postgresql

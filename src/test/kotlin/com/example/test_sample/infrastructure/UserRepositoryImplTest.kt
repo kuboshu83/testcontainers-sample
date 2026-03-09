@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.test.context.jdbc.Sql
+import org.springframework.test.context.jdbc.SqlConfig
 import org.springframework.transaction.annotation.Transactional
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
@@ -32,8 +33,11 @@ class UserRepositoryImplTest() {
     }
 
     @Test
-    @Transactional
-    @Sql("/sql/insert_user.sql")
+    @Transactional(transactionManager = "userTxManager")
+    @Sql(
+        scripts = ["/sql/insert_user.sql"],
+        config = SqlConfig(dataSource = "userDataSource")
+    )
     fun findByIdTest() {
         val get = repo.findById("akira_id")
         val expected = User("akira_id", "akira", "akira@example.com")
@@ -41,8 +45,11 @@ class UserRepositoryImplTest() {
     }
 
     @Test
-    @Transactional
-    @Sql("/sql/insert_user.sql")
+    @Transactional(transactionManager = "userTxManager")
+    @Sql(
+        scripts = ["/sql/insert_user.sql"],
+        config = SqlConfig(dataSource = "userDataSource")
+    )
     fun deleteByIdTest2() {
         repo.deleteById("akira_id")
         assertNull(repo.findById("akira_id"))

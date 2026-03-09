@@ -1,4 +1,4 @@
-package com.example.test_sample.infrastructure
+package com.example.test_sample.infrastructure.user
 
 import com.example.test_sample.domain.User
 import com.example.test_sample.domain.UserRepository

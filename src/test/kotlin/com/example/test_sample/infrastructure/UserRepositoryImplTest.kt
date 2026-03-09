@@ -35,7 +35,7 @@ class UserRepositoryImplTest() {
     @Test
     @Transactional(transactionManager = "userTxManager")
     @Sql(
-        scripts = ["/sql/insert_user.sql"],
+        scripts = ["/sql/user/insert_user.sql"],
         config = SqlConfig(dataSource = "userDataSource")
     )
     fun findByIdTest() {
@@ -47,7 +47,7 @@ class UserRepositoryImplTest() {
     @Test
     @Transactional(transactionManager = "userTxManager")
     @Sql(
-        scripts = ["/sql/insert_user.sql"],
+        scripts = ["/sql/user/insert_user.sql"],
         config = SqlConfig(dataSource = "userDataSource")
     )
     fun deleteByIdTest2() {

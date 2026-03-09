@@ -84,8 +84,37 @@ class UserRepositoryImplTest() {
         scripts = ["/sql/user/insert_user.sql"],
         config = SqlConfig(dataSource = "userDataSource")
     )
-    fun deleteByIdTest2() {
+    fun deleteByIdTest() {
         repo.deleteById("akira_id")
         assertNull(repo.findById("akira_id"))
+    }
+
+    @Test
+    @Transactional(transactionManager = "userTxManager")
+    @Sql(
+        scripts = ["/sql/user/insert_user.sql"],
+        config = SqlConfig(dataSource = "userDataSource")
+    )
+    fun findAllTest() {
+        // act
+        val got = repo.findAll()
+        // assert
+        val expected = listOf<User>(
+            User("akira_id", "akira", "akira@example.com"),
+            User("alice_id", "alice", "alice@example.com"),
+            User("akari_id", "akari", "akari@example.com"),
+        )
+        assertEquals(expected, got)
+    }
+
+    @Test
+    @Transactional(transactionManager = "userTxManager")
+    fun saveTest() {
+        // act
+        repo.save(User("athena_id", "athena", "athena@example.com"))
+        // assert
+        val got = repo.findById("athena_id")
+        val expected = User("athena_id", "athena", "athena@example.com")
+        assertEquals(expected, got)
     }
 }

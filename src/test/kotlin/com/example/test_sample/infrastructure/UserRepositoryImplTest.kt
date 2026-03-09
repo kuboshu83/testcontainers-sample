@@ -6,13 +6,15 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.jdbc.SqlConfig
 import org.springframework.transaction.annotation.Transactional
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.postgresql.PostgreSQLContainer
+import org.testcontainers.utility.DockerImageName
 import kotlin.test.assertEquals
 
 @SpringBootTest
@@ -23,12 +25,44 @@ class UserRepositoryImplTest() {
     lateinit var repo: UserRepository
 
     companion object {
+        val image: DockerImageName = DockerImageName
+            .parse("com.example.k83/test-sample-db:0.1.0")
+            .asCompatibleSubstituteFor("postgres")
+
         @Container
-        @ServiceConnection
-        private val postgres = PostgreSQLContainer("postgres:18.3").apply {
+        private val postgres = PostgreSQLContainer(image).apply {
             withUsername("postgres")
             withPassword("postgres")
             withDatabaseName("db")
+        }
+
+        @DynamicPropertySource
+        @JvmStatic
+        fun registerProperties(registry: DynamicPropertyRegistry) {
+            registry.add("spring.datasource.user.jdbcUrl") {
+                postgres.jdbcUrl.replace("/db", "/users")
+            }
+            registry.add("spring.datasource.user.username") {
+                postgres.username
+            }
+            registry.add("spring.datasource.user.password") {
+                postgres.password
+            }
+            registry.add("spring.datasource.user.driverClassName") {
+                postgres.driverClassName
+            }
+            registry.add("spring.datasource.product.jdbcUrl") {
+                postgres.jdbcUrl.replace("/db", "/product")
+            }
+            registry.add("spring.datasource.product.username") {
+                postgres.username
+            }
+            registry.add("spring.datasource.product.password") {
+                postgres.password
+            }
+            registry.add("spring.datasource.product.driverClassName") {
+                postgres.driverClassName
+            }
         }
     }
 

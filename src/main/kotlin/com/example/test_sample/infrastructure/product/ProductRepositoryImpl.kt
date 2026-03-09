@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-class ProductRepository(
+class ProductRepositoryImpl(
     private val productDao: ProductDao
 ) : ProductRepository {
     override fun save(product: Product) {

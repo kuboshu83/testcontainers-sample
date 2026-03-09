@@ -1,7 +1,7 @@
 package com.example.test_sample.infrastructure
 
 import com.example.test_sample.domain.Product
-import com.example.test_sample.infrastructure.product.ProductRepository
+import com.example.test_sample.infrastructure.product.ProductRepositoryImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
@@ -20,7 +20,7 @@ import kotlin.test.assertNull
 class ProductRepositoryImplTest() {
 
     @Autowired
-    private lateinit var repo: ProductRepository
+    private lateinit var repo: ProductRepositoryImpl
 
     companion object {
         @Container

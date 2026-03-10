@@ -1,0 +1,22 @@
+services:
+  app:
+
+  app-db:
+    build:
+      context: ./container
+      dockerfile: Dockerfile
+    image: com.example.k83/test-sample-db:0.1.0
+    container_name: app-db
+    tmpfs:
+      - /var/lib/postgresql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+    networks:
+      - test-nw
+
+  e2e:
+
+networks:
+  test-nw:

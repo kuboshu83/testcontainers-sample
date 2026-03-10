@@ -55,7 +55,6 @@ class TestSampleApplicationTests {
         }
     }
 
-    // DBのコンテナを起動していないとフェイルするテスト。
     @Test
     fun contextLoads() {
     }

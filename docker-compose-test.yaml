@@ -26,5 +26,20 @@ services:
     networks:
       - test-nw
 
+  e2e:
+    build:
+      context: ./e2e-tests
+      dockerfile: Dockerfile
+    image: com.example.k83/e2e:0.1.0
+    depends_on:
+      - app-test-db
+    container_name: e2e
+    working_dir: /tests
+    command: pytest -s
+    volumes:
+      - "./e2e-tests/tests:/tests/tests"
+    networks:
+      - test-nw
+
 networks:
   test-nw:

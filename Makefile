@@ -12,4 +12,4 @@ run:
 
 .PHONY:
 e2e:
-	podman compose -f docker-compose-test.yaml up -d
+	podman compose -f docker-compose-test.yaml up --abort-on-container-exit --exit-code-from e2e

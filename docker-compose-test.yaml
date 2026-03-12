@@ -1,6 +1,6 @@
 services:
   app-test:
-    image: com.example.k83/test-sample-app:0.1.0
+    image: com.example.k83/test-sample-app:${APP_VER}
     container_name: app-test
     depends_on:
       app-test-db:
@@ -13,10 +13,7 @@ services:
       - test-nw
 
   app-test-db:
-    build:
-      context: ./container
-      dockerfile: Dockerfile
-    image: com.example.k83/test-sample-db:0.1.0
+    image: com.example.k83/test-sample-db:${APP_DB_VER}
     container_name: app-test-db
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres || exit 1" ]
@@ -27,9 +24,9 @@ services:
     tmpfs:
       - /var/lib/postgresql
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=db
+      - POSTGRES_USER=${TEST_DB_USER}
+      - POSTGRES_PASSWORD=${TEST_DB_PASSWORD}
+      - POSTGRES_DB=${TEST_DB_NAME}
     networks:
       - test-nw
 

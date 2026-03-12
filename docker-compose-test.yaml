@@ -1,0 +1,45 @@
+services:
+  app-test:
+    image: com.example.k83/test-sample-app:0.1.0
+    container_name: app-test
+    depends_on:
+      - app-test-db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: test
+    networks:
+      - test-nw
+
+  app-test-db:
+    build:
+      context: ./container
+      dockerfile: Dockerfile
+    image: com.example.k83/test-sample-db:0.1.0
+    container_name: app-test-db
+    tmpfs:
+      - /var/lib/postgresql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+    networks:
+      - test-nw
+
+  e2e:
+    build:
+      context: ./e2e-tests
+      dockerfile: Dockerfile
+    image: com.example.k83/e2e:0.1.0
+    depends_on:
+      - app-test
+    container_name: e2e
+    working_dir: /tests
+    command: pytest -s
+    volumes:
+      - "./e2e-tests/tests:/tests/tests"
+    networks:
+      - test-nw
+
+networks:
+  test-nw:

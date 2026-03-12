@@ -3,7 +3,8 @@ services:
     image: com.example.k83/test-sample-app:0.1.0
     container_name: app-test
     depends_on:
-      - app-test-db
+      app-test-db:
+        condition: service_healthy
     ports:
       - "8080:8080"
     environment:
@@ -17,6 +18,12 @@ services:
       dockerfile: Dockerfile
     image: com.example.k83/test-sample-db:0.1.0
     container_name: app-test-db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres || exit 1" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
     tmpfs:
       - /var/lib/postgresql
     environment:
@@ -26,13 +33,27 @@ services:
     networks:
       - test-nw
 
+  wait-app-test:
+    image: curlimages/curl:8.18.0
+    container_name: wait-app-test
+    command: sh -c "sleep infinity"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://app-test:8080/actuator/health || exit 1" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+    networks:
+      - test-nw
+
   e2e:
     build:
       context: ./e2e-tests
       dockerfile: Dockerfile
     image: com.example.k83/e2e:0.1.0
     depends_on:
-      - app-test
+      wait-app-test:
+        condition: service_healthy
     container_name: e2e
     working_dir: /tests
     command: pytest -s

@@ -2,7 +2,7 @@ include .env
 
 .PHONY:
 build-db:
-	podman build -f Dockerfile -t com.example.k83/test-sample-db:$(APP_DB_VER) ./container
+	podman build -f Dockerfile -t com.example.k83/test-sample-db:$(APP_DB_VER) ./container/db
 
 .PHONY:
 build-app: build-db

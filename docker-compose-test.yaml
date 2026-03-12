@@ -32,7 +32,7 @@ services:
       dockerfile: Dockerfile
     image: com.example.k83/e2e:0.1.0
     depends_on:
-      - app-test-db
+      - app-test
     container_name: e2e
     working_dir: /tests
     command: pytest -s

@@ -1,6 +1,6 @@
 services:
   app:
-    image: com.example.k83/test-sample-app:0.1.0
+    image: com.example.k83/test-sample-app:${APP_VER}
     container_name: app
     depends_on:
       - app-db
@@ -12,17 +12,14 @@ services:
       - test-nw
 
   app-db:
-    build:
-      context: ./container
-      dockerfile: Dockerfile
-    image: com.example.k83/test-sample-db:0.1.0
+    image: com.example.k83/test-sample-db:${APP_DB_VER}
     container_name: app-db
     volumes:
       - "test-sample-db-data:/var/lib/postgresql"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=db
+      - POSTGRES_USER=${APP_DB_USER}
+      - POSTGRES_PASSWORD=${APP_DB_PASSWORD}
+      - POSTGRES_DB=${APP_DB_NAME}
     networks:
       - test-nw
 
